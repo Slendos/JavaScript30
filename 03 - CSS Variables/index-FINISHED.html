@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Scoped CSS Variables and JS</title>
 </head>
+
 <body>
   <h2>Update CSS Variables with <span class='hl'>JS</span></h2>
 
@@ -63,6 +65,7 @@
     const inputs = document.querySelectorAll('.controls input');
 
     function handleUpdate() {
+      console.log(this.value);
       const suffix = this.dataset.sizing || '';
       document.documentElement.style.setProperty(`--${this.name}`, this.value + suffix);
     }
@@ -73,4 +76,5 @@
 
 
 </body>
+
 </html>

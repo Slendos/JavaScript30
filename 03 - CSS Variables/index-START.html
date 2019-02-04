@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Scoped CSS Variables and JS</title>
 </head>
+
 <body>
   <h2>Update CSS Variables with <span class='hl'>JS</span></h2>
 
   <div class="controls">
     <label for="spacing">Spacing:</label>
-    <input id="spacing" type="range" name="spacing" min="10" max="200" value="10" data-sizing="px">
+    <input id="spacing" type="range" name="spacing" min="10" max="200" value="20" data-sizing="px">
 
     <label for="blur">Blur:</label>
     <input id="blur" type="range" name="blur" min="0" max="25" value="10" data-sizing="px">
@@ -18,10 +20,9 @@
     <input id="base" type="color" name="base" value="#ffc600">
   </div>
 
-  <img src="https://source.unsplash.com/7bwQXzbF6KE/800x500">
+  <img id="img" src="https://source.unsplash.com/7bwQXzbF6KE/800x500">
 
   <style>
-
     /*
       misc styles, nothing to do with CSS variables
     */
@@ -42,10 +43,42 @@
     input {
       width: 100px;
     }
+
+    img {
+      background-color: orange;
+    }
   </style>
 
   <script>
+    // pridani spacing okolo obrazku
+    function spacingValue() {
+      let value = this.value - 10;
+      imgInput.style.padding = value + "px";
+    }
+
+    // pridani rozmazani obrazku
+    function blurValue() {
+      let value = this.value;
+      imgInput.style.filter = "blur(" + value + "px)";
+      console.log(value);
+    }
+
+    // zmena pozadi obrazku
+    function colorChange() {
+      let color = this.value;
+      console.log(imgInput.style.background);
+      imgInput.style.backgroundColor = color;
+    }
+
+    let baseInput = document.querySelector("#base");
+    let imgInput = document.querySelector("#img");
+    let blurInput = document.querySelector("#blur");
+    let spacingInput = document.querySelector("#spacing");
+    baseInput.addEventListener("change", colorChange);
+    spacingInput.addEventListener("mousemove", spacingValue);
+    blurInput.addEventListener("mousemove", blurValue);
   </script>
 
 </body>
+
 </html>
