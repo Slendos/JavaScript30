@@ -7,6 +7,27 @@
 </head>
 <body>
 <script>
+
+  const body = document.querySelector('body');
+  let secretCode = "bobek";
+  let arrOfSequence = [];
+
+  window.addEventListener('keyup', (e) => {
+    arrOfSequence.push(e.key);
+    
+    // zajisteni, aby array byl furt dlouhej jako secretCode
+    arrOfSequence.splice(-secretCode.length - 1, arrOfSequence.length - secretCode.length);
+    if(arrOfSequence.join('') == "bobek")
+    {
+      let r = Math.floor(Math.random() * 256);
+      let g = Math.floor(Math.random() * 256);
+      let b = Math.floor(Math.random() * 256);
+      cornify_add();
+      body.style.backgroundColor = `rgb(${r},${g},${b})`;
+    }
+  });
+
+  
 </script>
 </body>
 </html>
