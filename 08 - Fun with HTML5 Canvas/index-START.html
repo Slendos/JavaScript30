@@ -7,6 +7,101 @@
 <body>
 <canvas id="draw" width="800" height="800"></canvas>
 <script>
+const canvas = document.getElementById('draw');
+
+// setting up canvas
+let ctx = canvas.getContext("2d");
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+ctx.fillStyle = "#FF0000";
+ctx.lineJoin = 'round';
+ctx.lineCap = 'round';
+
+// declarating variables
+let x;
+let y;
+let strokeWidth = 1;
+let colorStroke = 1;
+let strokeSmall = true;
+let isDrawing = true;
+let isBiggest = false;
+let randomA;
+let randomB;
+let randomC;
+
+// get number nomber for color
+function randomColor()
+{
+  return Math.floor((Math.random() * 255) + 1);
+}
+
+// increasing stroke
+function increaseStroke(stroke)
+{
+  if(stroke == 50)
+  {
+    strokeSmall = false;
+  }
+  if(stroke == 1)
+  {
+    strokeSmall = true;
+  }
+  if(strokeSmall == true)
+  {
+    stroke++;
+  }
+  else
+  {
+    stroke--;
+  }
+  return stroke;
+}
+
+// drawing lines
+function draw(e)
+{
+  if(isDrawing == true)
+    {
+      ctx.beginPath();
+      ctx.moveTo(x, y);
+      x = e.clientX;
+      y = e.clientY;
+      colorStroke = randomColor(colorStroke);
+      randomA = randomColor();
+      randomB = randomColor();
+      randomC = randomColor();
+      console.log(randomA);
+      ctx.strokeStyle = `rgb(${randomA},${randomB},${randomC})`;
+      ctx.lineTo(x, y);
+      ctx.stroke();
+      strokeWidth = increaseStroke(strokeWidth);
+      ctx.lineWidth = strokeWidth;
+    }
+    else // eliminating connecting lines
+    {
+      x = e.clientX;
+      y = e.clientY;
+    }
+}
+
+// when the mouse is released stop drawing
+function stopDrawing()
+{
+  isDrawing = false;
+  console.log("up");
+}
+
+function startDrawing(e) {
+  isDrawing = true;
+  // listening if mouse is moving
+  canvas.addEventListener('mousemove', draw);
+  // listening if mouse is unpressed
+  canvas.addEventListener('mouseup', stopDrawing);
+
+}
+// listening if mouse is pressed
+canvas.addEventListener('mousedown', startDrawing);
+
 </script>
 
 <style>

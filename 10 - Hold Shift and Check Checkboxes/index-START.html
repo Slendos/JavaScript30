@@ -96,6 +96,85 @@
   </div>
 
 <script>
+const checkboxes = document.querySelectorAll('.inbox input[type="checkbox"]');
+let value = 0;
+let lastChecked;
+const nameIdCheckbox = "number";
+
+// giving id's to checkboxes
+function numberedCheckboxes(checkbox)
+{
+  checkbox.id = nameIdCheckbox + value;
+  value++;
+}
+
+// setting lastChecked checkbox
+function lastCheck(e)
+{
+  lastChecked = this.id;
+}
+
+// main function for checking checkboxes when holding shift
+function multipleChecks(event)
+{
+  // if shift key is pressed proceed
+  if (event.shiftKey)
+  {
+    console.log("SHIFT PRESSED");
+    let nowChecked = this.id;
+
+    // separating checkboxes id's to only number
+    nowChecked = separateNumber(nowChecked);
+    lastChecked = separateNumber(lastChecked);
+
+    // branch if nowclicked is higher
+    if(lastChecked > nowChecked)
+    {
+      for(let i = nowChecked; i < lastChecked; i++)
+      {
+        let id = document.getElementById(`${nameIdCheckbox}${i}`);
+        console.log(id.id);
+        id.checked = true;
+      }
+    }
+    // branch if nowclicked is lower
+    else
+    {
+      for(let i = lastChecked; i < nowChecked; i++)
+      {
+        // get checkbox by id
+        let id = document.getElementById(`${nameIdCheckbox}${i}`);
+        // set check to checkbox
+        id.checked = true;
+      }
+    }
+  }
+  else
+  {
+    console.log("SHIFT NOT PRESSED");
+  }
+}
+
+// setting id's to checkboxes
+checkboxes.forEach(checkbox => numberedCheckboxes(checkbox))
+
+// lisstening checking checkbox
+checkboxes.forEach(checkbox => checkbox.addEventListener('click', multipleChecks));
+
+// setting lastChecked checkbox
+checkboxes.forEach(checkbox => checkbox.addEventListener('click', lastCheck));
+
+console.log(checkboxes);
+
+// function for separating number from string and converting to int
+function separateNumber(number)
+{
+  number = number.match(/\d/g);
+  number = number.join("");
+  number = parseInt(number);
+  return number;
+}
+
 </script>
 </body>
 </html>
