@@ -38,9 +38,11 @@
       // e is returning also label so we need to sort them
       if(!e.target.matches('input')) return;
       let index = e.target.dataset.index;
+      
       // toggling checked
       items[index].done = !items[index].done;
       console.log(items[index].done);
+
       // again storing to localStorage
       localStorage.setItem('items', JSON.stringify(items));
   }
