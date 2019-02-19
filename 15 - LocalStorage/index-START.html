@@ -28,8 +28,60 @@
 <script>
   const addItems = document.querySelector('.add-items');
   const itemsList = document.querySelector('.plates');
-  const items = [];
+  // try to take localStorage or when it's empty then take empty array
+  const items = JSON.parse(localStorage.getItem('items')) || [];
 
+  // JSON.parse(localStorage.getItem('items'));  make object out of string from localStorage
+
+  function toggleDone(e)
+  {
+      // e is returning also label so we need to sort them
+      if(!e.target.matches('input')) return;
+      let index = e.target.dataset.index;
+      // toggling checked
+      items[index].done = !items[index].done;
+      console.log(items[index].done);
+      // again storing to localStorage
+      localStorage.setItem('items', JSON.stringify(items));
+  }
+
+  function addItem(e)
+  {
+    // prevent not loading page again!!
+      e.preventDefault();
+
+      let text = (this.querySelector('[name="item"]')).value;
+      console.log(text);
+      const item = {
+          text: text,
+          done: false
+        }
+      
+      items.push(item);
+      addHTML(items, itemsList);
+      // localStorage can't store objects so we need to make it string with JSON.stringify
+      localStorage.setItem('items', JSON.stringify(items));
+      console.table(items);
+      // reset text input  
+      this.reset();
+  }
+
+  function addHTML(plates = [], platesList) {
+      let i = 0;
+      platesList.innerHTML = plates.map((plate,i) => {
+        return `
+          <li>
+            <input type="checkbox" data-index=${i} id="item${i}" ${plate.done ? "checked" : ""}>
+            <label for="item${i}">${plate.text}</label>
+          </li>
+        `;
+      }).join('');
+      i++
+  }
+  addItems.addEventListener('submit', addItem);
+  itemsList.addEventListener('click', toggleDone);
+  // adding HTML from local storage before start
+  addHTML(items, itemsList);
 </script>
 
 
